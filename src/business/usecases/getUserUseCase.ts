@@ -1,13 +1,13 @@
 import { injectable, inject } from "inversify";
 import { left, right } from "fp-ts/Either";
-import { IUserRepository } from "../contracts/repositories/iUserRepository";
+import { IUserRepository } from "./../contracts/repositories/iUserRepository";
 import { UserOutput } from "./output/userOutput";
-import { IUseCase } from "../contracts/usecases/iUseCase";
+import { IGetUseCase } from "./../contracts/usecases/iGetUseCase";
 import { IGetUserInput } from "./input/iGetUserInput";
 import { GetUserFailed, UserNotFound } from "./../errors";
 
 @injectable()
-export class GetUserUseCase implements IUseCase<IGetUserInput, UserOutput> {
+export class GetUserUseCase implements IGetUseCase<IGetUserInput, UserOutput> {
   constructor(
     @inject(Symbol.for("IUserRepository"))
     private userRepository: IUserRepository

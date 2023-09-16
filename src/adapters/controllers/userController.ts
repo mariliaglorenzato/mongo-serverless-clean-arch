@@ -1,13 +1,16 @@
 import { APIGatewayProxyResult } from "aws-lambda";
 import { injectable, inject } from "inversify";
 import * as E from "fp-ts/Either";
-import { GetUserUseCase } from "../../business/usecases/getUserUseCase";
-import { IGetUserInput } from "../../business/usecases/input/iGetUserInput";
+import { IGetUseCase } from "./../../business/contracts/usecases/iGetUseCase";
+import { IGetUserInput } from "./../../business/usecases/input/iGetUserInput";
+import { UserOutput } from "./../../business/usecases/output/userOutput";
 import _ from "lodash";
-
 @injectable()
 export class UserController {
-  constructor(@inject(GetUserUseCase) private getUserUseCase: GetUserUseCase) {}
+  constructor(
+    @inject(Symbol.for("IGetUseCase"))
+    private getUserUseCase: IGetUseCase<IGetUserInput, UserOutput>
+  ) {}
 
   async getUser(input: IGetUserInput): Promise<APIGatewayProxyResult> {
     const result = await this.getUserUseCase.exec(input);
